@@ -27,7 +27,7 @@ export default function NotFoundPage() {
 
         {/* Go Back Button */}
         <Button
-          colorPalette="iris"
+          colorPalette="purple"
           color={"white"}
           size="lg"
           onClick={() => navigate("/")}
