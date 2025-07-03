@@ -73,7 +73,7 @@ export const VoucherReciept = ({
               Code:
             </Text>
             <Text fontSize={"xs"} fontWeight={"medium"}>
-              PYYR-1234-ABCD 
+              PYYR-1234-ABCD
             </Text>
           </Flex>
           <Separator />
@@ -115,15 +115,26 @@ export const VoucherReciept = ({
         </Stack>
       </Stack>
 
-      <Button
-        colorPalette="purple"
-        w="full"
-        rounded={"lg"}
-        onClick={() => setStep(2)}
-        _hover={{ transform: "scale(1.05)", transition: "0.3s" }}
-      >
-        Redeem Voucher
-      </Button>
+      <Flex justifyContent={"space-between"} mt={4}>
+        <Button
+          colorPalette="black"
+          rounded={"lg"}
+          w={"2/5"}
+          onClick={() => setStep(1)}
+          _hover={{ transform: "scale(1.05)", transition: "0.3s" }}
+        >
+          Redeem Another
+        </Button>
+        <Button
+          colorPalette="purple"
+          rounded={"lg"}
+          w={"2/5"}
+          onClick={() => setStep(2)}
+          _hover={{ transform: "scale(1.05)", transition: "0.3s" }}
+        >
+          Print Receipt
+        </Button>
+      </Flex>
     </Box>
   );
 };
