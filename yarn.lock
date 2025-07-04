@@ -564,6 +564,11 @@
   resolved "https://registry.yarnpkg.com/@fontsource-variable/atkinson-hyperlegible-next/-/atkinson-hyperlegible-next-5.2.4.tgz#f66eff63ac4a15c57ee916914b1b152a79816709"
   integrity sha512-tBwEMYA1+QopQI6f/cU3V502aNx0/ewRlpCKndPn4rOOZK/gOOyxRGanxxRlJyOBkwZ9Qx9z4bM39uV1PXbmVg==
 
+"@fontsource-variable/open-sans@^5.2.6":
+  version "5.2.6"
+  resolved "https://registry.yarnpkg.com/@fontsource-variable/open-sans/-/open-sans-5.2.6.tgz#eb3fa6c4a464100f5ae4eb87886288239dfed738"
+  integrity sha512-O596UvQZ7KkR8yDJWIP8UZZoqs0DHpYsrL0Szml0/EkrJ35HcMIM3bJ3sSAIAjWsBSqKgzV2HJEIuhvxBd1iog==
+
 "@humanfs/core@^0.19.1":
   version "0.19.1"
   resolved "https://registry.yarnpkg.com/@humanfs/core/-/core-0.19.1.tgz#17c55ca7d426733fe3c561906b8173c336b40a77"
