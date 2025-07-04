@@ -36,11 +36,9 @@ export const VoucherValid = ({
           <Icon as={FaCircleCheck} boxSize={5} color="green.700" />
         </Box>
       </Center>
-
       <Text fontSize="lg" fontWeight="bold" mb={2}>
         Voucher Valid
       </Text>
-
       <Text fontSize="sm" color="gray.600" mb={4}>
         Verified successfully. Proceed to redeem for the customer
       </Text>
@@ -99,7 +97,6 @@ export const VoucherValid = ({
           </Text>
         </Flex>
       </Stack>
-
       <Button
         colorPalette="purple"
         w="full"

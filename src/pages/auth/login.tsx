@@ -12,13 +12,9 @@ import {
 } from "@chakra-ui/react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/field";
-import { useFormik } from "formik";
-import { toaster } from "@/components/ui/toaster";
-import { useNavigate } from "react-router-dom";
 import { PasswordInput } from "@/components/ui/password-input";
 
 export const LoginPage = () => {
-  const navigate = useNavigate();
   //   const { setCurrentUser } = useCurrentUser();
   //   const formik = useFormik({
   //     initialValues: { email: "", password: "" },
