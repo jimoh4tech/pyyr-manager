@@ -3,6 +3,7 @@ import { MdHistory } from "react-icons/md";
 import { PiReceiptBold } from "react-icons/pi";
 import { Avatar } from "../ui/avatar";
 import { Vouchers } from "./voucher/vouchers";
+import { History } from "./history";
 
 export const Navbar = () => {
   return (
@@ -50,7 +51,9 @@ export const Navbar = () => {
         <Tabs.Content value="vouchers">
           <Vouchers />
         </Tabs.Content>
-        <Tabs.Content value="history">Manage your projects</Tabs.Content>
+        <Tabs.Content value="history">
+          <History />
+        </Tabs.Content>
       </Tabs.Root>
     </Flex>
   );
