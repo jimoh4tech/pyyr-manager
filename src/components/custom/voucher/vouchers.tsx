@@ -3,9 +3,14 @@ import { useState } from "react";
 import { VerifyForm } from "./verify-form";
 import { VoucherValid } from "./voucher-valid";
 import { VoucherReciept } from "./verify-reciept";
+import { useSearchParams } from "react-router-dom";
 
 export const Vouchers = () => {
   const [step, setStep] = useState(1);
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+
+  console.log("Token:", token);
   return (
     <Flex
       bg="white"
