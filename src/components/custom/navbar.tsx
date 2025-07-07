@@ -1,11 +1,48 @@
-import { Box, Flex, HStack, Text, Image, Tabs, Spacer } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  HStack,
+  Text,
+  Image,
+  Tabs,
+  Spacer,
+  Center,
+} from "@chakra-ui/react";
 import { MdHistory } from "react-icons/md";
 import { PiReceiptBold } from "react-icons/pi";
 import { Avatar } from "../ui/avatar";
 import { Vouchers } from "./voucher/vouchers";
 import { History } from "./history";
+import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import type { IVoucherHistory } from "@/interfaces/voucher-history";
+import voucherServices from "@/services/voucher";
 
 export const Navbar = () => {
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+
+  const [vouchers, setVouchers] = useState<IVoucherHistory[] | null>(null);
+
+  console.log("Token:", token);
+
+  const fetchVoucher = async () => {
+    try {
+      const res = await voucherServices.getVoucherHistory({
+        list_history: token || "",
+      });
+      console.log({ res });
+      setVouchers(res);
+    } catch (error) {
+      console.error("Error fetching voucher history:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      fetchVoucher();
+    }
+  }, [token]);
   return (
     <Flex
       as="nav"
@@ -52,7 +89,13 @@ export const Navbar = () => {
           <Vouchers />
         </Tabs.Content>
         <Tabs.Content value="history">
-          <History />
+          {vouchers ? (
+            <History vouchers={vouchers} />
+          ) : (
+            <Center minH={"70vh"}>
+              <Image src="/images/loading.gif" />
+            </Center>
+          )}
         </Tabs.Content>
       </Tabs.Root>
     </Flex>

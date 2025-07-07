@@ -1,4 +1,4 @@
-export interface IVOucherHistory {
+export interface IVoucherHistory {
   amount: string;
   customer_name: string;
   datetime: string;
