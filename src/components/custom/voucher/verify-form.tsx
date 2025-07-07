@@ -40,11 +40,6 @@ export const VerifyForm = ({ setStep }: { setStep: (val: number) => void }) => {
         Enter the customer's voucher code to verify its validity before
         redeeming
       </Text>
-
-      <Field.Root mb={2}>
-        <Field.Label>Customer Email Address</Field.Label>
-        <Input placeholder="Enter email address" type="email" />
-      </Field.Root>
       <Field.Root mb={4}>
         <Field.Label>Voucher Code</Field.Label>
         <Input placeholder="e.g. PYYR-1234-ABCD" />
