@@ -20,6 +20,14 @@ export const VerifyForm = ({ setStep }: { setStep: (val: number) => void }) => {
   const [loading, setLoading] = useState(false);
 
   const handleVerifyVoucher = async () => {
+    if (voucherCode.length === 0) {
+      toaster.create({
+        title: "Error",
+        description: "Please enter a voucher code.",
+        type: "error",
+      });
+      return;
+    }
     try {
       console.log("Verifying voucher:", voucherCode);
       setLoading(true);
