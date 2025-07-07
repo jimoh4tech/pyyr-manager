@@ -12,10 +12,10 @@ import {
 import { FaCircleCheck } from "react-icons/fa6";
 
 export const VoucherValid = ({
-  setStep,
+  handleRedeemVoucher,
   voucherValid,
 }: {
-  setStep: (val: number) => void;
+  handleRedeemVoucher: () => void;
   voucherValid: IVoucherValid | null;
 }) => {
   return (
@@ -104,7 +104,7 @@ export const VoucherValid = ({
         colorPalette="purple"
         w="full"
         rounded={"lg"}
-        onClick={() => setStep(3)}
+        onClick={handleRedeemVoucher}
         _hover={{ transform: "scale(1.05)", transition: "0.3s" }}
       >
         Redeem Voucher

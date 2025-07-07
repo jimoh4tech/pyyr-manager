@@ -1,3 +1,4 @@
+import type { IVoucherValid } from "@/interfaces/voucher-history";
 import {
   Box,
   Button,
@@ -12,8 +13,10 @@ import { FaCircleCheck } from "react-icons/fa6";
 
 export const VoucherReciept = ({
   setStep,
+  voucherValid,
 }: {
   setStep: (val: number) => void;
+  voucherValid: IVoucherValid | null;
 }) => {
   return (
     <Box
@@ -73,7 +76,7 @@ export const VoucherReciept = ({
               Code:
             </Text>
             <Text fontSize={"xs"} fontWeight={"medium"}>
-              PYYR-1234-ABCD
+              {voucherValid?.voucher_code || "N/A"}
             </Text>
           </Flex>
           <Separator />
@@ -82,7 +85,7 @@ export const VoucherReciept = ({
               Amount:
             </Text>
             <Text fontSize={"xs"} fontWeight={"medium"}>
-              ₦5,000
+              ₦{voucherValid?.amount || 0}
             </Text>
           </Flex>
           <Separator />
@@ -91,7 +94,7 @@ export const VoucherReciept = ({
               Expires:
             </Text>
             <Text fontSize={"xs"} fontWeight={"medium"}>
-              30 July 2025{" "}
+              N/A
             </Text>
           </Flex>
           <Separator />
@@ -100,7 +103,7 @@ export const VoucherReciept = ({
               Customer name:
             </Text>
             <Text fontSize={"xs"} fontWeight={"medium"}>
-              Samuel Adeniji
+              {voucherValid?.customer_name || "N/A"}
             </Text>
           </Flex>
           <Separator />
@@ -109,7 +112,7 @@ export const VoucherReciept = ({
               Type:
             </Text>
             <Text fontSize={"xs"} fontWeight={"medium"}>
-              Gift
+              {voucherValid?.type || "N/A"}
             </Text>
           </Flex>
         </Stack>
@@ -117,7 +120,8 @@ export const VoucherReciept = ({
 
       <Flex justifyContent={"space-between"} mt={4}>
         <Button
-          colorPalette="black"
+          colorPalette="purple"
+          variant={"subtle"}
           rounded={"lg"}
           w={"2/5"}
           onClick={() => setStep(1)}

@@ -56,6 +56,37 @@ export const Vouchers = () => {
       setLoading(false);
     }
   };
+  const handleRedeemVoucher = async () => {
+    try {
+      setLoading(true);
+      const res = await voucherService.processVoucher({
+        web_redemption_voucher: voucherValid?.voucher_code || "",
+        brandid: token || "",
+        location: "",
+      });
+      console.log({ res });
+
+      if (res.responseCode) {
+        toaster.create({
+          title: "Error",
+          description: res.responseMessage || "Opps! Something went wrong.",
+          type: "error",
+        });
+      } else {
+        toaster.create({
+          title: "Success",
+          description: res.responseMessage || "Successfully verified voucher.",
+          type: "success",
+        });
+        setVoucherValid(res);
+        setStep(3);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Flex
@@ -73,9 +104,12 @@ export const Vouchers = () => {
           loading={loading}
         />
       ) : step === 2 ? (
-        <VoucherValid setStep={setStep} voucherValid={voucherValid} />
+        <VoucherValid
+          handleRedeemVoucher={handleRedeemVoucher}
+          voucherValid={voucherValid}
+        />
       ) : (
-        <VoucherReciept setStep={setStep} />
+        <VoucherReciept setStep={setStep} voucherValid={voucherValid} />
       )}
     </Flex>
   );
