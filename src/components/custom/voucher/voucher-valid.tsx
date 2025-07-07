@@ -1,3 +1,4 @@
+import type { IVoucherValid } from "@/interfaces/voucher-history";
 import {
   Box,
   Button,
@@ -12,8 +13,10 @@ import { FaCircleCheck } from "react-icons/fa6";
 
 export const VoucherValid = ({
   setStep,
+  voucherValid,
 }: {
   setStep: (val: number) => void;
+  voucherValid: IVoucherValid | null;
 }) => {
   return (
     <Box
@@ -57,7 +60,7 @@ export const VoucherValid = ({
             Code:
           </Text>
           <Text fontSize={"xs"} fontWeight={"medium"}>
-            PYYR-1234-ABCD 
+            {voucherValid?.voucher_code || null}
           </Text>
         </Flex>
         <Separator />
@@ -66,7 +69,7 @@ export const VoucherValid = ({
             Amount:
           </Text>
           <Text fontSize={"xs"} fontWeight={"medium"}>
-            ₦5,000
+            ₦{voucherValid?.amount || 0}
           </Text>
         </Flex>
         <Separator />
@@ -75,7 +78,7 @@ export const VoucherValid = ({
             Expires:
           </Text>
           <Text fontSize={"xs"} fontWeight={"medium"}>
-            30 July 2025{" "}
+            N/A
           </Text>
         </Flex>
         <Separator />
@@ -84,7 +87,7 @@ export const VoucherValid = ({
             Customer name:
           </Text>
           <Text fontSize={"xs"} fontWeight={"medium"}>
-            Samuel Adeniji
+            {voucherValid?.customer_name || "N/A"}
           </Text>
         </Flex>
         <Separator />
@@ -93,7 +96,7 @@ export const VoucherValid = ({
             Type:
           </Text>
           <Text fontSize={"xs"} fontWeight={"medium"}>
-            Gift
+            {voucherValid?.type || "N/A"}
           </Text>
         </Flex>
       </Stack>

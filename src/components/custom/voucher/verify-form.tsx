@@ -1,5 +1,3 @@
-import { toaster } from "@/components/ui/toaster";
-import voucherService from "@/services/voucher";
 import {
   Box,
   Button,
@@ -9,55 +7,19 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { FaTicketAlt } from "react-icons/fa";
-import { useSearchParams } from "react-router-dom";
 
-export const VerifyForm = ({ setStep }: { setStep: (val: number) => void }) => {
-  const [searchParams] = useSearchParams();
-  const token = searchParams.get("token");
-  const [voucherCode, _setVoucherCode] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const handleVerifyVoucher = async () => {
-    if (voucherCode.length === 0) {
-      toaster.create({
-        title: "Error",
-        description: "Please enter a voucher code.",
-        type: "error",
-      });
-      return;
-    }
-    try {
-      console.log("Verifying voucher:", voucherCode);
-      setLoading(true);
-      const res = await voucherService.checkVoucher({
-        web_redemption: voucherCode,
-        brandid: token || "",
-      });
-      console.log({ res });
-
-      if (res.responseCode !== "200") {
-        toaster.create({
-          title: "Error",
-          description: res.responseMessage || "Opps! Something went wrong.",
-          type: "error",
-        });
-      } else {
-        toaster.create({
-          title: "Success",
-          description: res.responseMessage || "Successfully verified voucher.",
-          type: "success",
-        });
-        setStep(2); // Move to the next step if verification is successful
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+export const VerifyForm = ({
+  handleVerifyVoucher,
+  loading,
+  voucherCode,
+  setVoucherCode,
+}: {
+  loading: boolean;
+  handleVerifyVoucher: () => void;
+  voucherCode: string;
+  setVoucherCode: (code: string) => void;
+}) => {
   return (
     <Box
       bg="white"
@@ -90,7 +52,11 @@ export const VerifyForm = ({ setStep }: { setStep: (val: number) => void }) => {
       </Text>
       <Field.Root mb={4}>
         <Field.Label>Voucher Code</Field.Label>
-        <Input placeholder="e.g. PYYR-1234-ABCD" />
+        <Input
+          placeholder="e.g. PYYR-1234-ABCD"
+          value={voucherCode}
+          onChange={(e) => setVoucherCode(e.target.value)}
+        />
       </Field.Root>
 
       <Button

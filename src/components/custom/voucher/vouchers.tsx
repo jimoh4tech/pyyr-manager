@@ -3,9 +3,59 @@ import { useState } from "react";
 import { VerifyForm } from "./verify-form";
 import { VoucherValid } from "./voucher-valid";
 import { VoucherReciept } from "./verify-reciept";
+import { useSearchParams } from "react-router-dom";
+import { toaster } from "@/components/ui/toaster";
+import voucherService from "@/services/voucher";
+import type { IVoucherValid } from "@/interfaces/voucher-history";
 
 export const Vouchers = () => {
   const [step, setStep] = useState(1);
+
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  const [voucherCode, setVoucherCode] = useState("");
+  const [voucherValid, setVoucherValid] = useState<IVoucherValid | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleVerifyVoucher = async () => {
+    if (voucherCode.length === 0) {
+      toaster.create({
+        title: "Error",
+        description: "Please enter a voucher code.",
+        type: "error",
+      });
+      return;
+    }
+    try {
+      console.log("Verifying voucher:", voucherCode);
+      setLoading(true);
+      const res = await voucherService.checkVoucher({
+        web_redemption: voucherCode,
+        brandid: token || "",
+      });
+      console.log({ res });
+
+      if (res.responseCode) {
+        toaster.create({
+          title: "Error",
+          description: res.responseMessage || "Opps! Something went wrong.",
+          type: "error",
+        });
+      } else {
+        toaster.create({
+          title: "Success",
+          description: res.responseMessage || "Successfully verified voucher.",
+          type: "success",
+        });
+        setVoucherValid(res);
+        setStep(2); // Move to the next step if verification is successful
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Flex
@@ -16,9 +66,14 @@ export const Vouchers = () => {
       w={"full"}
     >
       {step === 1 ? (
-        <VerifyForm setStep={setStep} />
+        <VerifyForm
+          voucherCode={voucherCode}
+          setVoucherCode={setVoucherCode}
+          handleVerifyVoucher={handleVerifyVoucher}
+          loading={loading}
+        />
       ) : step === 2 ? (
-        <VoucherValid setStep={setStep} />
+        <VoucherValid setStep={setStep} voucherValid={voucherValid} />
       ) : (
         <VoucherReciept setStep={setStep} />
       )}
