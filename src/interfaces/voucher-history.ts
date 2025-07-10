@@ -9,6 +9,8 @@ export interface IVoucherHistory {
 export interface IVoucherValid {
   amount: string;
   customer_name: string;
-  type: string;
+  type?: string;
   voucher_code: string;
+  datetime: string;
+  email: string;
 }

@@ -24,8 +24,6 @@ export const Navbar = () => {
 
   const [vouchers, setVouchers] = useState<IVoucherHistory[] | null>(null);
 
-  console.log("Token:", token);
-
   const fetchVoucher = async () => {
     try {
       const res = await voucherServices.getVoucherHistory({

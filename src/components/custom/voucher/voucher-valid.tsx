@@ -14,9 +14,13 @@ import { FaCircleCheck } from "react-icons/fa6";
 export const VoucherValid = ({
   handleRedeemVoucher,
   voucherValid,
+  loading,
+  location,
 }: {
   handleRedeemVoucher: () => void;
   voucherValid: IVoucherValid | null;
+  loading: boolean;
+  location?: string;
 }) => {
   return (
     <Box
@@ -106,6 +110,8 @@ export const VoucherValid = ({
         rounded={"lg"}
         onClick={handleRedeemVoucher}
         _hover={{ transform: "scale(1.05)", transition: "0.3s" }}
+        loading={loading}
+        disabled={!location || location == null || location === ""}
       >
         Redeem Voucher
       </Button>

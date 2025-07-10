@@ -1,3 +1,4 @@
+import { toaster } from "@/components/ui/toaster";
 import type { IVoucherValid } from "@/interfaces/voucher-history";
 import {
   Box,
@@ -9,6 +10,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { toPng } from "html-to-image";
 import { FaCircleCheck } from "react-icons/fa6";
 
 export const VoucherReciept = ({
@@ -18,6 +20,55 @@ export const VoucherReciept = ({
   setStep: (val: number) => void;
   voucherValid: IVoucherValid | null;
 }) => {
+  const downloadInvoiceAsImage = async () => {
+    const node = document.getElementById("invoice");
+
+    if (!node) return;
+
+    try {
+      // Wait for fonts and images to load
+      await document.fonts.ready;
+
+      // Wait for all images inside the container to load
+      const images = node.getElementsByTagName("img");
+      await Promise.all(
+        Array.from(images).map(
+          (img) =>
+            new Promise((resolve) => {
+              if (img.complete) resolve(true);
+              else img.onload = img.onerror = () => resolve(true);
+            })
+        )
+      );
+
+      // Add a short delay to ensure all styles apply correctly
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      // Capture the image
+      const dataUrl = await toPng(node, {
+        quality: 1,
+        cacheBust: true, // Helps to prevent caching issues
+        backgroundColor: "#ffffff", // Ensures background color consistency
+      });
+
+      // Trigger download
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = "invoice.png";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      toaster.create({
+        title: "Invoice Downloaded",
+        description: "Invoice downloaded successfully.",
+        type: "success",
+        duration: 9000,
+      });
+    } catch (error) {
+      console.error("❌ Failed to capture image", error);
+    }
+  };
   return (
     <Box
       bg="white"
@@ -26,6 +77,7 @@ export const VoucherReciept = ({
       boxShadow="md"
       maxW="sm"
       textAlign="center"
+      id="invoice"
     >
       <Center mb={4}>
         <Box
@@ -94,7 +146,7 @@ export const VoucherReciept = ({
               Expires:
             </Text>
             <Text fontSize={"xs"} fontWeight={"medium"}>
-              N/A
+              {voucherValid?.datetime || "N/A"}
             </Text>
           </Flex>
           <Separator />
@@ -133,7 +185,7 @@ export const VoucherReciept = ({
           colorPalette="purple"
           rounded={"lg"}
           w={"2/5"}
-          onClick={() => setStep(2)}
+          onClick={downloadInvoiceAsImage}
           _hover={{ transform: "scale(1.05)", transition: "0.3s" }}
         >
           Print Receipt

@@ -12,10 +12,14 @@ export const Vouchers = () => {
   const [step, setStep] = useState(1);
 
   const [searchParams] = useSearchParams();
-  const token = searchParams.get("token");
+  const brandid = searchParams.get("brandid");
+  const location = searchParams.get("location");
   const [voucherCode, setVoucherCode] = useState("");
   const [voucherValid, setVoucherValid] = useState<IVoucherValid | null>(null);
   const [loading, setLoading] = useState(false);
+
+  console.log("Brand ID:", brandid);
+  console.log("Location:", location);
 
   const handleVerifyVoucher = async () => {
     if (voucherCode.length === 0) {
@@ -31,7 +35,7 @@ export const Vouchers = () => {
       setLoading(true);
       const res = await voucherService.checkVoucher({
         web_redemption: voucherCode,
-        brandid: token || "",
+        brandid: brandid || "",
       });
       console.log({ res });
 
@@ -61,12 +65,12 @@ export const Vouchers = () => {
       setLoading(true);
       const res = await voucherService.processVoucher({
         web_redemption_voucher: voucherValid?.voucher_code || "",
-        brandid: token || "",
-        location: "",
+        brandid: brandid || "",
+        location: location || "",
       });
       console.log({ res });
 
-      if (res.responseCode) {
+      if (res.responseCode != "200") {
         toaster.create({
           title: "Error",
           description: res.responseMessage || "Opps! Something went wrong.",
@@ -107,6 +111,8 @@ export const Vouchers = () => {
         <VoucherValid
           handleRedeemVoucher={handleRedeemVoucher}
           voucherValid={voucherValid}
+          loading={loading}
+          location={location || ""}
         />
       ) : (
         <VoucherReciept setStep={setStep} voucherValid={voucherValid} />
