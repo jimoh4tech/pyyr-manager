@@ -17,17 +17,18 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import type { IVoucherHistory } from "@/interfaces/voucher-history";
 import voucherServices from "@/services/voucher";
+import LogRocket from "logrocket";
 
 export const Navbar = () => {
   const [searchParams] = useSearchParams();
-  const token = searchParams.get("token");
+  const brandid = searchParams.get("brandid");
 
   const [vouchers, setVouchers] = useState<IVoucherHistory[] | null>(null);
 
   const fetchVoucher = async () => {
     try {
       const res = await voucherServices.getVoucherHistory({
-        list_history: token || "",
+        list_history: brandid || "",
       });
       console.log({ res });
       setVouchers(res);
@@ -37,10 +38,13 @@ export const Navbar = () => {
   };
 
   useEffect(() => {
-    if (token) {
+    if (brandid) {
+      LogRocket.identify(brandid, {
+        brandid,
+      });
       fetchVoucher();
     }
-  }, [token]);
+  }, [brandid]);
   return (
     <Flex
       as="nav"
