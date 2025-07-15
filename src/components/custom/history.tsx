@@ -1,6 +1,11 @@
-import type { IVoucherHistory } from "@/interfaces/voucher-history";
+import type {
+  IVoucherHistory,
+  IVoucherValid,
+} from "@/interfaces/voucher-history";
 import {
   Button,
+  CloseButton,
+  Dialog,
   Flex,
   Input,
   InputGroup,
@@ -11,14 +16,20 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { BiFilterAlt } from "react-icons/bi";
-import { FiPrinter } from "react-icons/fi";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { VoucherReciept } from "./voucher/verify-reciept";
 
 export const History = ({ vouchers }: { vouchers: IVoucherHistory[] }) => {
   const [filterText, setFilterText] = useState("");
+  const [voucherValid, setVoucherValid] = useState<IVoucherValid | null>(null);
+  const [open, setOpen] = useState(false);
+
+  const handleView = (voucher: IVoucherValid) => {
+    setOpen(true);
+    setVoucherValid(voucher);
+  };
   return (
     <Stack>
       <Stack>
@@ -38,7 +49,7 @@ export const History = ({ vouchers }: { vouchers: IVoucherHistory[] }) => {
             />
           </InputGroup>
 
-          <Menu.Root>
+          {/* <Menu.Root>
             <Menu.Trigger asChild>
               <Button variant="outline" size="sm">
                 <BiFilterAlt />
@@ -54,7 +65,7 @@ export const History = ({ vouchers }: { vouchers: IVoucherHistory[] }) => {
                 </Menu.Content>
               </Menu.Positioner>
             </Portal>
-          </Menu.Root>
+          </Menu.Root> */}
         </Flex>
         <Table.Root size="sm">
           <Table.Header>
@@ -66,6 +77,7 @@ export const History = ({ vouchers }: { vouchers: IVoucherHistory[] }) => {
               <Table.ColumnHeader>Customer Name</Table.ColumnHeader>
               {/* <Table.ColumnHeader>Redeemed by</Table.ColumnHeader> */}
               <Table.ColumnHeader>Email</Table.ColumnHeader>
+              <Table.ColumnHeader>Location</Table.ColumnHeader>
               <Table.ColumnHeader>Action</Table.ColumnHeader>
             </Table.Row>
           </Table.Header>
@@ -79,6 +91,9 @@ export const History = ({ vouchers }: { vouchers: IVoucherHistory[] }) => {
                       ?.toLowerCase()
                       .includes(filterText.toLowerCase()) ||
                     v.voucher_code
+                      ?.toLowerCase()
+                      .includes(filterText.toLowerCase()) ||
+                    v?.location
                       ?.toLowerCase()
                       .includes(filterText.toLowerCase())
                 )
@@ -100,6 +115,9 @@ export const History = ({ vouchers }: { vouchers: IVoucherHistory[] }) => {
                     <Table.Cell>
                       {item.email?.length == 0 ? "Nil" : item.email}
                     </Table.Cell>
+                    <Table.Cell>
+                      {item?.location == null ? "Nil" : item.location}
+                    </Table.Cell>
                     {/* <Table.Cell>{"item.category"}</Table.Cell> */}
                     <Table.Cell>
                       <Menu.Root>
@@ -111,14 +129,12 @@ export const History = ({ vouchers }: { vouchers: IVoucherHistory[] }) => {
                         <Portal>
                           <Menu.Positioner>
                             <Menu.Content>
-                              <Menu.Item value="view">
+                              <Menu.Item
+                                value="view"
+                                onClick={() => handleView(item)}
+                              >
                                 <MdOutlineRemoveRedEye />
                                 View
-                              </Menu.Item>
-                              <Menu.Item value="claimed">
-                                {" "}
-                                <FiPrinter />
-                                Print Reciept
                               </Menu.Item>
                             </Menu.Content>
                           </Menu.Positioner>
@@ -130,6 +146,14 @@ export const History = ({ vouchers }: { vouchers: IVoucherHistory[] }) => {
           </Table.Body>
         </Table.Root>
       </Stack>
+      <Dialog.Root lazyMount open={open} onOpenChange={(e) => setOpen(e.open)}>
+        <Portal>
+          <Dialog.Backdrop />
+          <Dialog.Positioner>
+            <VoucherReciept setOpen={setOpen} voucherValid={voucherValid} />
+          </Dialog.Positioner>
+        </Portal>
+      </Dialog.Root>
     </Stack>
   );
 };

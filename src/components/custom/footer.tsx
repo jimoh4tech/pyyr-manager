@@ -12,6 +12,7 @@ export const Footer = () => {
       bg="white"
       w="full"
       justifyContent={"space-between"}
+      flexDir={{ base: "column", md: "row" }}
     >
       <Text fontSize="sm" color="gray.600">
         Pyy­r © {new Date().getFullYear()}

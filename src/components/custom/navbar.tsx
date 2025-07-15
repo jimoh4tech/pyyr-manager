@@ -59,7 +59,13 @@ export const Navbar = () => {
       {/* Navigation links */}
 
       <Tabs.Root defaultValue="vouchers" w={"full"} colorPalette={"purple"}>
-        <Flex justifyContent={"space-between"} w="full" alignItems="center">
+        <Flex
+          justifyContent={"space-between"}
+          w="full"
+          alignItems="center"
+          flexDir={{ base: "column", md: "row" }}
+          gap={2}
+        >
           <Box>
             <Image src="/images/logo.png" alt="Pyyr Logo" />
           </Box>
@@ -75,7 +81,7 @@ export const Navbar = () => {
             </Tabs.Trigger>
           </Tabs.List>
           <Spacer />
-          <HStack gap={3}>
+          <HStack gap={3} display={{ base: "none", md: "flex" }}>
             <Avatar
               size="sm"
               name="Gloryfoodstores"

@@ -15,9 +15,11 @@ import { FaCircleCheck } from "react-icons/fa6";
 
 export const VoucherReciept = ({
   setStep,
+  setOpen,
   voucherValid,
 }: {
-  setStep: (val: number) => void;
+  setStep?: (val: number) => void;
+  setOpen?: (val: boolean) => void;
   voucherValid: IVoucherValid | null;
 }) => {
   const downloadInvoiceAsImage = async () => {
@@ -171,16 +173,30 @@ export const VoucherReciept = ({
       </Stack>
 
       <Flex justifyContent={"space-between"} mt={4}>
-        <Button
-          colorPalette="purple"
-          variant={"subtle"}
-          rounded={"lg"}
-          w={"2/5"}
-          onClick={() => setStep(1)}
-          _hover={{ transform: "scale(1.05)", transition: "0.3s" }}
-        >
-          Redeem Another
-        </Button>
+        {setStep ? (
+          <Button
+            colorPalette="purple"
+            variant={"subtle"}
+            rounded={"lg"}
+            w={"2/5"}
+            onClick={() => (setStep ? setStep(1) : null)}
+            _hover={{ transform: "scale(1.05)", transition: "0.3s" }}
+          >
+            Redeem Another
+          </Button>
+        ) : (
+          <Button
+            colorPalette="purple"
+            variant={"subtle"}
+            rounded={"lg"}
+            w={"2/5"}
+            onClick={() => (setOpen ? setOpen(false) : null)}
+            _hover={{ transform: "scale(1.05)", transition: "0.3s" }}
+          >
+            Close
+          </Button>
+        )}
+
         <Button
           colorPalette="purple"
           rounded={"lg"}

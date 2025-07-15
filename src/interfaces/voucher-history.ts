@@ -4,6 +4,7 @@ export interface IVoucherHistory {
   datetime: string;
   email: string;
   voucher_code: string;
+  location: string;
 }
 
 export interface IVoucherValid {
