@@ -3,23 +3,6 @@ import { Navbar } from "@/components/custom/navbar";
 import { Flex } from "@chakra-ui/react";
 
 export const Layout = () => {
-  //   const { currentUser, isLoading } = useCurrentUser();
-
-  //   if (isLoading) {
-  //     return (
-  //       <Center h="100vh" bg="gray.50">
-  //         <Box
-  //           animationDuration="slow"
-  //           animationStyle={{
-  //             _open: "slide-fade-in",
-  //             _closed: "slide-fade-out",
-  //           }}
-  //         >
-  //           <Image src="/images/loading.gif" alt="Logo" boxSize="50px" />
-  //         </Box>
-  //       </Center>
-  //     );
-  //   }
   return (
     <>
       <Flex
@@ -34,7 +17,4 @@ export const Layout = () => {
       </Flex>
     </>
   );
-  //   : (
-  //     <Navigate to="/login" replace />
-  //   );
 };

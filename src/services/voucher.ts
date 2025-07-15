@@ -65,8 +65,41 @@ const getVoucherHistory = async ({
   return res.data;
 };
 
+const claimVoucher = async ({
+  activate_voucher,
+  afname,
+  email,
+  gender,
+  lname,
+  phone,
+}: {
+  activate_voucher: string;
+  afname: string;
+  email: string;
+  gender: string;
+  lname: string;
+  phone: string;
+}) => {
+  const res = await axios.post(
+    `${baseUrl}`,
+    {
+      activate_voucher,
+      afname,
+      email,
+      gender,
+      lname,
+      phone,
+    },
+    {
+      headers: { "Content-Type": "multipart/form-data" },
+    }
+  );
+  return res.data;
+};
+
 export default {
   checkVoucher,
   processVoucher,
   getVoucherHistory,
+  claimVoucher,
 };
