@@ -22,6 +22,9 @@ import LogRocket from "logrocket";
 export const Navbar = () => {
   const [searchParams] = useSearchParams();
   const brandid = searchParams.get("brandid");
+  const location = searchParams.get("location");
+  const [brandName, setBrandName] = useState<string | null>(null);
+  const [brandLogo, setBrandLogo] = useState<string | null>(null);
 
   const [vouchers, setVouchers] = useState<IVoucherHistory[] | null>(null);
 
@@ -31,6 +34,8 @@ export const Navbar = () => {
         list_history: brandid || "",
       });
       console.log({ res });
+      setBrandName(res[res?.length - 1]?.brand_name || null);
+      setBrandLogo(res[res?.length - 1]?.logo || null);
       setVouchers(res);
     } catch (error) {
       console.error("Error fetching voucher history:", error);
@@ -58,7 +63,7 @@ export const Navbar = () => {
     >
       {/* Navigation links */}
 
-      <Tabs.Root defaultValue="vouchers" w={"full"} colorPalette={"purple"}>
+      <Tabs.Root defaultValue="history" w={"full"} colorPalette={"purple"}>
         <Flex
           justifyContent={"space-between"}
           w="full"
@@ -71,10 +76,12 @@ export const Navbar = () => {
           </Box>
           <Spacer />
           <Tabs.List>
-            <Tabs.Trigger value="vouchers">
-              <PiReceiptBold />
-              Redeem Voucher
-            </Tabs.Trigger>
+            {location && (
+              <Tabs.Trigger value="vouchers">
+                <PiReceiptBold />
+                Redeem Voucher
+              </Tabs.Trigger>
+            )}
             <Tabs.Trigger value="history">
               <MdHistory />
               History
@@ -84,11 +91,11 @@ export const Navbar = () => {
           <HStack gap={3} display={{ base: "none", md: "flex" }}>
             <Avatar
               size="sm"
-              name="Gloryfoodstores"
-              src="https://i.pravatar.cc/150?img=3"
+              name={brandName || "User"}
+              src={brandLogo || ""}
             />
             <Text fontSize="sm" color="gray.700">
-              Hello Gloryfoodstores!
+              {`Hello ${brandName || "User"}`}
             </Text>
           </HStack>
         </Flex>
